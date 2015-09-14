@@ -1,0 +1,16 @@
+{
+    "manifest_version": 2,
+    "name": "Baidu Meetings",
+    "description": "This extension is for Baidu Meetings",
+    "version": "1.0",
+    "permissions": [
+        "http://meeting.baidu.com/",
+        "alarms",
+        "tabs",
+        "unlimitedStorage"
+    ],
+    "browser_action": {
+        "default_icon": "favicon.png",
+        "default_popup": "popup.html"
+    }
+}
