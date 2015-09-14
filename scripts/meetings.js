@@ -10,7 +10,7 @@
  * @since 0.1.0
  */
 
-define(['./htmlparser'], function (parser) {
+define(['./htmlparser'], function(parser) {
 
     var Core = {
         /**
@@ -20,14 +20,14 @@ define(['./htmlparser'], function (parser) {
          * @param  {Function} cb cb(err, html)
          * @return {this}
          */
-        getScheduleListHTML: function (cb) {
-            $.get('http://meeting.baidu.com/web/scheduleList').done(function (content) {
+        getScheduleListHTML: function(cb) {
+            $.get('http://meeting.baidu.com/web/scheduleList').done(function(content) {
                 if (content) {
                     cb(null, content);
                 } else {
                     cb(new Error('No content'));
                 }
-            }).fail(function (jqXhr, err) {
+            }).fail(function(jqXhr, err) {
                 cb(err);
             });
         },
@@ -38,25 +38,41 @@ define(['./htmlparser'], function (parser) {
          * @param  {string} html
          * @return {Object}
          */
-        parseScheduleList: function (html) {
-            var tblHtml = html.match(/<table[\s\S]+<\/table>/);
-            if (!tblHtml) {
-                return null;
-            }
-            return parser.parse(tblHtml);
+        parseScheduleList: function(html) {
+            return parser.parse(html);
         }
     };
 
     return {
-        test: function () {
-            Core.getScheduleListHTML(function (err, html) {
-                Core.parseScheduleList(html);
+        test: function() {
+            Core.getScheduleListHTML(function(err, html) {
+                if (err) {
+                    console.error(err);
+                } else {
+                    console.log(Core.parseScheduleList(html));
+                }
             });
         },
-        checkin: function () {},
-        checkout: function (id) {},
-        transder: function (targetMan, ids) {},
-        list: function () {}
+        checkin: function() {},
+        checkout: function(id) {},
+        transder: function(targetMan, ids) {},
+        list: function() {
+            Core.getScheduleListHTML(function(err, html) {
+                if (err) {
+                    console.error(err);
+                } else {
+                    var schedules = Core.parseScheduleList(html).schedules;
+                    
+                    var onSchedulingSize = schedules.filter(function(item) {
+                        return '未开始' === item['当前状态']
+                    }).length;
+
+                    chrome.browserAction.setBadgeText({
+                        text: onSchedulingSize ?  onSchedulingSize + '' : ''
+                    });
+                }
+            });
+        }
     };
 
 });

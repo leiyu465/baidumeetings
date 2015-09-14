@@ -22,7 +22,7 @@ define(['../lib/context-parser'], function (contextParser) {
         iframe.style.display = 'none';
         iframe.src = 'about:blank';
         document.body.appendChild(iframe);
-        doc = iframe.contentDocument;
+        doc = iframe.contentWindow.document;
         doc.body.innerHTML = html;
 
         ths = doc.querySelectorAll('table tbody:first-of-type tr:last-of-type th');
@@ -42,7 +42,7 @@ define(['../lib/context-parser'], function (contextParser) {
             scheduleItems.push(scheduleItem);
         }
 
-        iframe.parentNode.remove(iframe);
+        iframe.parentNode.removeChild(iframe);
         return {
             headers: headers,
             schedules: scheduleItems

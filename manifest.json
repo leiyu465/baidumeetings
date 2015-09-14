@@ -5,6 +5,8 @@
     "version": "1.0",
     "permissions": [
         "http://meeting.baidu.com/",
+        "http://uuap.baidu.com/",
+        "https://uuap.baidu.com/",
         "alarms",
         "tabs",
         "unlimitedStorage"

@@ -24,6 +24,6 @@ require(['./lib/jquery', './scripts/meetings'], function ($, Meetings) {
     });
 
     chrome.alarms.onAlarm.addListener(function (alarm) {
-        Meetings.test();
+        Meetings.list();
     });
 });
