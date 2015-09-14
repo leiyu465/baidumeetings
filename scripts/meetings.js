@@ -62,14 +62,23 @@ define(['./htmlparser'], function(parser) {
                     console.error(err);
                 } else {
                     var schedules = Core.parseScheduleList(html).schedules;
-                    
+
                     var onSchedulingSize = schedules.filter(function(item) {
                         return '未开始' === item['当前状态']
                     }).length;
 
                     chrome.browserAction.setBadgeText({
-                        text: onSchedulingSize ?  onSchedulingSize + '' : ''
+                        text: onSchedulingSize ? onSchedulingSize + '' : ''
                     });
+
+                    // var onCheckinginSize
+
+                    if (onSchedulingSize) {
+                        new Notification('会议室签到',{
+                            icon: 'favicon.png',
+                            body: '请检查是否有需要签到的会议室'
+                        });
+                    }
                 }
             });
         }
