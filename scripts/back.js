@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2015 yanni4night.com
- * service.js
+ * back.js
  *
  * changelog
  * 2015-09-14[15:49:25]:revised
