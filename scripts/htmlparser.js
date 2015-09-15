@@ -9,7 +9,7 @@
  * @version 0.1.0
  * @since 0.1.0
  */
-define(['../lib/context-parser'], function (contextParser) {
+define([], function () {
 
     function parse(html) {
         var i, j;
@@ -36,7 +36,7 @@ define(['../lib/context-parser'], function (contextParser) {
             var scheduleItem = {};
             var tds = trs[i].children;
             for (j = 0; j < tds.length; ++j) {
-                scheduleItem[headers[j]] = tds[j].innerText.trim();
+                scheduleItem[headers[j]] = tds[j].innerHTML.trim();
             }
 
             scheduleItems.push(scheduleItem);

@@ -1,0 +1,26 @@
+{
+  "name": "baidumeetings",
+  "version": "1.0.0",
+  "homepage": "https://github.com/yanni4night/baidumeetings",
+  "authors": [
+    "yanni4night@gmail.com"
+  ],
+  "description": "Helper for baidu meetings",
+  "main": "popup.html",
+  "keywords": [
+    "baidu",
+    "meetings"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "2",
+    "requirejs": "~2.1.20"
+  }
+}
