@@ -15,6 +15,7 @@ require(['./scripts/meetings'], function (Meetings) {
     var MeetingsChecker = function () {
         var started = false;
         var inError = false;
+        var lastNotification;
 
         this.start = function () {
             var self = this;
@@ -58,9 +59,12 @@ require(['./scripts/meetings'], function (Meetings) {
                     });
 
                     if (onCheckinginSize) {
-                        new Notification('会议室签到', {
+                        if (lastNotification) {
+                            lastNotification.close();
+                        }
+                        lastNotification = new Notification('签到', {
                             icon: 'img/ask.png',
-                            body: '请检查是否有需要签到的会议室'
+                            body: '有要签到的会议室'
                         });
                     }
                 });
@@ -68,13 +72,19 @@ require(['./scripts/meetings'], function (Meetings) {
 
             return self;
         };
-    };
 
-    MeetingsChecker.prototype.reportError = function (errmsg) {
-        new Notification('出错', {
-            icon: 'img/warn.png',
-            body: errmsg
-        });
+
+        this.reportError = function (errmsg) {
+            //Prevent from mutiple notifications
+            if (lastNotification) {
+                lastNotification.close();
+            }
+
+            lastNotification = new Notification('出错', {
+                icon: 'img/warn.png',
+                body: errmsg
+            });
+        };
     };
 
     console.debug('Start checking meetings');
