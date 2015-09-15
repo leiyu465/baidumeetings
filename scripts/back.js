@@ -59,7 +59,7 @@ require(['./scripts/meetings'], function (Meetings) {
 
                     if (onCheckinginSize) {
                         new Notification('会议室签到', {
-                            icon: 'favicon.png',
+                            icon: 'img/ask.png',
                             body: '请检查是否有需要签到的会议室'
                         });
                     }
@@ -72,7 +72,7 @@ require(['./scripts/meetings'], function (Meetings) {
 
     MeetingsChecker.prototype.reportError = function (errmsg) {
         new Notification('出错', {
-            icon: 'favicon.png', // TODO
+            icon: 'img/warn.png',
             body: errmsg
         });
     };

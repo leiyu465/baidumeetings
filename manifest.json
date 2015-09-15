@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
-    "name": "Baidu Meetings",
-    "description": "This extension is for Baidu Meetings",
-    "version": "1.0",
+    "name": "Baidu Meetings Helper",
+    "description": "Helper for Baidu Meetings",
+    "version": "1.0.0",
     "permissions": [
         "http://meeting.baidu.com/",
         "http://uuap.baidu.com/",
@@ -13,6 +13,11 @@
         "background",
         "unlimitedStorage"
     ],
+    "icons": {
+        "256": "img/icons/icon_256.png",
+        "128": "img/icons/icon_128.png",
+        "64": "img/icons/icon_64.png"
+    },
     "background": {
         "page": "back.html"
     },
