@@ -68,7 +68,11 @@ require(['./scripts/meetings'], function (Meetings) {
 
                         lastNotification = new Notification('会议室签到', {
                             icon: 'img/ask.png',
-                            body: tipStr
+                            body: tipStr + '\n开始时间：' + onCheckingin[0]['开始时间'] +
+                                '\n位置：' + onCheckingin[0]['地域'] + '-' +
+                                onCheckingin[0]['楼层'] + '-' + onCheckingin[0][
+                                    '会议室描述'
+                                ]
                         });
 
                         chrome.tts.speak(tipStr, {
