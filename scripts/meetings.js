@@ -10,7 +10,12 @@
  * @since 0.1.0
  */
 
-define(['./htmlparser'], function(parser) {
+define(['../lib/jquery', './htmlparser'], function ($, parser) {
+    $ = $ || window.$;
+
+    $.ajaxSetup({
+        cache: false
+    });
 
     var Core = {
         /**
@@ -20,14 +25,14 @@ define(['./htmlparser'], function(parser) {
          * @param  {Function} cb cb(err, html)
          * @return {this}
          */
-        getScheduleListHTML: function(cb) {
-            $.get('http://meeting.baidu.com/web/scheduleList').done(function(content) {
+        getScheduleListHTML: function (cb) {
+            $.get('http://meeting.baidu.com/web/scheduleList').done(function (content) {
                 if (content) {
                     cb(null, content);
                 } else {
                     cb(new Error('No content'));
                 }
-            }).fail(function(jqXhr, err) {
+            }).fail(function (jqXhr, err) {
                 cb(err);
             });
         },
@@ -38,14 +43,14 @@ define(['./htmlparser'], function(parser) {
          * @param  {string} html
          * @return {Object}
          */
-        parseScheduleList: function(html) {
+        parseScheduleList: function (html) {
             return parser.parse(html);
         }
     };
 
     return {
-        test: function() {
-            Core.getScheduleListHTML(function(err, html) {
+        test: function () {
+            Core.getScheduleListHTML(function (err, html) {
                 if (err) {
                     console.error(err);
                 } else {
@@ -53,28 +58,32 @@ define(['./htmlparser'], function(parser) {
                 }
             });
         },
-        checkin: function() {},
-        checkout: function(id) {},
-        transder: function(targetMan, ids) {},
-        list: function() {
-            Core.getScheduleListHTML(function(err, html) {
+        checkin: function () {},
+        checkout: function (id) {},
+        transder: function (targetMan, ids) {},
+        list: function () {
+            Core.getScheduleListHTML(function (err, html) {
                 if (err) {
                     console.error(err);
                 } else {
                     var schedules = Core.parseScheduleList(html).schedules;
 
-                    var onSchedulingSize = schedules.filter(function(item) {
+                    var onSchedulingSize = schedules.filter(function (item) {
                         return '未开始' === item['当前状态']
                     }).length;
 
+
+
+                    var onCheckinginSize = schedules.filter(function (item) {
+                        return '可签入' === item['当前状态']
+                    }).length;
+
                     chrome.browserAction.setBadgeText({
-                        text: onSchedulingSize ? onSchedulingSize + '' : ''
+                        text: onSchedulingSize + '(' + onCheckinginSize + ')'
                     });
 
-                    // var onCheckinginSize
-
-                    if (onSchedulingSize) {
-                        new Notification('会议室签到',{
+                    if (onCheckinginSize) {
+                        new Notification('会议室签到', {
                             icon: 'favicon.png',
                             body: '请检查是否有需要签到的会议室'
                         });
