@@ -64,12 +64,14 @@ require(['./scripts/meetings'], function (Meetings) {
                             lastNotification.close();
                         }
 
-                        lastNotification = new Notification('签到', {
+                        var tipStr = '您有需要签到的会议室：' + onCheckingin[0]['会议室名称'];
+
+                        lastNotification = new Notification('会议室签到', {
                             icon: 'img/ask.png',
-                            body: '会议室【' + onCheckingin[0]['会议室名称'] + '】需要签到'
+                            body: tipStr
                         });
 
-                        chrome.tts.speak('您有需要签到的会议室：' + onCheckingin[0]['会议室名称'], {
+                        chrome.tts.speak(tipStr, {
                             lang: 'zh-CN',
                             rate: 1.0,
                             enqueue: true
