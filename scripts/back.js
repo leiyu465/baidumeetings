@@ -50,22 +50,30 @@ require(['./scripts/meetings'], function (Meetings) {
                         return '未开始' === item['当前状态']
                     }).length;
 
-                    var onCheckinginSize = schedules.filter(function (item) {
+                    var onCheckingin = schedules.filter(function (item) {
                         return '可签入' === item['当前状态']
-                    }).length;
-
-                    chrome.browserAction.setBadgeText({
-                        text: onSchedulingSize + '(' + onCheckinginSize + ')'
                     });
 
-                    if (onCheckinginSize) {
+                    chrome.browserAction.setBadgeText({
+                        text: onSchedulingSize + '(' + onCheckingin.length +
+                            ')'
+                    });
+
+                    if (onCheckingin.length) {
                         if (lastNotification) {
                             lastNotification.close();
                         }
+
                         lastNotification = new Notification('签到', {
                             icon: 'img/ask.png',
-                            body: '有要签到的会议室'
+                            body: '会议室【' + onCheckingin[0]['会议室名称'] + '】需要签到'
                         });
+
+                        chrome.tts.speak('您有需要签到的会议室：' + onCheckingin[0]['会议室名称'], {
+                            lang: 'zh-CN',
+                            rate: 1.0,
+                            enqueue: true
+                        }, function () {});
                     }
                 });
             });
