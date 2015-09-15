@@ -49,9 +49,30 @@ define(['../lib/jquery', './htmlparser'], function ($, parser) {
                 return cb(!err && scheduleList.headers && scheduleList.schedules);
             });
         },
-        checkin: function (id, cb) {},
-        checkout: function (id, cb) {},
-        transder: function (targetMan, ids, cb) {},
+        checkin: function (id, cb) {
+            $.get('/web/checkIn?scheduleId=' + id).done(function () {
+                cb();
+            }).fail(function (jqXhr, error) {
+                cb(error);
+            });
+        },
+        cancel: function (id, cb) {
+            $.get('/web/cancel?scheduleId=' + id).done(function () {
+                cb();
+            }).fail(function (jqXhr, error) {
+                cb(error);
+            });
+        },
+        checkout: function (id, cb) {
+            $.get('/web/checkOut?scheduleId=' + id).done(function () {
+                cb();
+            }).fail(function (jqXhr, error) {
+                cb(error);
+            });
+        },
+        transder: function (targetMan, ids, cb) {
+            // '/web/transferOrderMan?scheduleId=&newOrderManEmail='
+        },
         list: function (cb) {
             Core.getScheduleList(cb);
         }

@@ -9,6 +9,7 @@
         "https://uuap.baidu.com/",
         "alarms",
         "tabs",
+        "tts",
         "notifications",
         "background",
         "unlimitedStorage"
@@ -27,5 +28,6 @@
     },
     "web_accessible_resources": [
         "favicon.png"
-    ]
+    ],
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
