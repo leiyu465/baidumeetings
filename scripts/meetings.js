@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 tieba.baidu.com
+ * Copyright (C) 2015 yanni4night.com
  * meetings.js
  *
  * changelog
  * 2015-09-14[16:06:41]:revised
  *
- * @author yinyong02@baidu.com
+ * @author yanni4night@gmail.com
  * @version 0.1.0
  * @since 0.1.0
  */
@@ -19,77 +19,41 @@ define(['../lib/jquery', './htmlparser'], function ($, parser) {
 
     var Core = {
         /**
-         * Get the HTML of my-schedule-list 
+         * Get my-schedule-list 
          * from `http://meeting.baidu.com/web/scheduleList`.
          * 
          * @param  {Function} cb cb(err, html)
          * @return {this}
          */
-        getScheduleListHTML: function (cb) {
+        getScheduleList: function (cb) {
             $.get('http://meeting.baidu.com/web/scheduleList').done(function (content) {
                 if (content) {
-                    cb(null, content);
+                    var parsedSchedules = parser.parse(content);
+                    if (parsedSchedules) {
+                        cb(null, parsedSchedules);
+                    } else {
+                        cb(new Error('Parsed error'));
+                    }
                 } else {
                     cb(new Error('No content'));
                 }
             }).fail(function (jqXhr, err) {
                 cb(err);
             });
-        },
-
-        /**
-         * Parse html to schedule table.
-         * 
-         * @param  {string} html
-         * @return {Object}
-         */
-        parseScheduleList: function (html) {
-            return parser.parse(html);
         }
     };
 
     return {
-        test: function () {
-            Core.getScheduleListHTML(function (err, html) {
-                if (err) {
-                    console.error(err);
-                } else {
-                    console.log(Core.parseScheduleList(html));
-                }
+        test: function (cb) {
+            Core.getScheduleList(function (err, scheduleList) {
+                return cb(!err && scheduleList.headers && scheduleList.schedules);
             });
         },
-        checkin: function () {},
-        checkout: function (id) {},
-        transder: function (targetMan, ids) {},
-        list: function () {
-            Core.getScheduleListHTML(function (err, html) {
-                if (err) {
-                    console.error(err);
-                } else {
-                    var schedules = Core.parseScheduleList(html).schedules;
-
-                    var onSchedulingSize = schedules.filter(function (item) {
-                        return '未开始' === item['当前状态']
-                    }).length;
-
-
-
-                    var onCheckinginSize = schedules.filter(function (item) {
-                        return '可签入' === item['当前状态']
-                    }).length;
-
-                    chrome.browserAction.setBadgeText({
-                        text: onSchedulingSize + '(' + onCheckinginSize + ')'
-                    });
-
-                    if (onCheckinginSize) {
-                        new Notification('会议室签到', {
-                            icon: 'favicon.png',
-                            body: '请检查是否有需要签到的会议室'
-                        });
-                    }
-                }
-            });
+        checkin: function (id, cb) {},
+        checkout: function (id, cb) {},
+        transder: function (targetMan, ids, cb) {},
+        list: function (cb) {
+            Core.getScheduleList(cb);
         }
     };
 

@@ -1,11 +1,11 @@
 /**
-  * Copyright (C) 2015 tieba.baidu.com
+  * Copyright (C) 2015 yanni4night.com
   * popup.js
   *
   * changelog
   * 2015-09-15[11:02:07]:revised
   *
-  * @author yinyong02@baidu.com
+  * @author yanni4night@gmail.com
   * @version 0.1.0
   * @since 0.1.0
   */
