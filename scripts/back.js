@@ -42,6 +42,8 @@ require(['./scripts/meetings'], function(Meetings) {
                             chrome.browserAction.setBadgeText({
                                 text: 'error'
                             });
+
+                            errTimes = 0;
                         }
 
                         return;
