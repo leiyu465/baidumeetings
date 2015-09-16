@@ -10,7 +10,7 @@
  * @since 0.1.0
  */
 
-define(['../lib/jquery', './htmlparser'], function ($, parser) {
+define(['../lib/jquery', './htmlparser'], function($, parser) {
     $ = $ || window.$;
 
     $.ajaxSetup({
@@ -25,8 +25,8 @@ define(['../lib/jquery', './htmlparser'], function ($, parser) {
          * @param  {Function} cb cb(err, html)
          * @return {this}
          */
-        getScheduleList: function (cb) {
-            $.get('http://meeting.baidu.com/web/scheduleList').done(function (content) {
+        getScheduleList: function(cb) {
+            $.get('http://meeting.baidu.com/web/scheduleList').done(function(content) {
                 if (content) {
                     var parsedSchedules = parser.parse(content);
                     if (parsedSchedules) {
@@ -37,43 +37,45 @@ define(['../lib/jquery', './htmlparser'], function ($, parser) {
                 } else {
                     cb(new Error('No content'));
                 }
-            }).fail(function (jqXhr, err) {
-                cb(err);
+            }).fail(function(jqXhr, error, errText) {
+                cb(new Error(errText));
+            });
+        }
+    };
+
+    var Web = {
+        request: function(url, cb) {
+            $.getJSON(url).done(function(data) {
+                if (200 === data.code && 1 === data.status) {
+                    cb(null, data);
+                } else {
+                    cb(new Error('操作失败'));
+                }
+            }).fail(function(jqXhr, error, errText) {
+                cb(new Error(errText));
             });
         }
     };
 
     return {
-        test: function (cb) {
-            Core.getScheduleList(function (err, scheduleList) {
+        test: function(cb) {
+            Core.getScheduleList(function(err, scheduleList) {
                 return cb(!err && scheduleList.headers && scheduleList.schedules);
             });
         },
-        checkin: function (id, cb) {
-            $.get('/web/checkIn?scheduleId=' + id).done(function () {
-                cb();
-            }).fail(function (jqXhr, error) {
-                cb(error);
-            });
+        checkin: function(id, cb) {
+            Web.request('/web/checkIn?scheduleId=' + id, cb);
         },
-        cancel: function (id, cb) {
-            $.get('/web/cancel?scheduleId=' + id).done(function () {
-                cb();
-            }).fail(function (jqXhr, error) {
-                cb(error);
-            });
+        cancel: function(id, cb) {
+            Web.request('/web/cancel?scheduleId=' + id, cb);
         },
-        checkout: function (id, cb) {
-            $.get('/web/checkOut?scheduleId=' + id).done(function () {
-                cb();
-            }).fail(function (jqXhr, error) {
-                cb(error);
-            });
+        checkout: function(id, cb) {
+            Web.request('/web/checkOut?scheduleId=' + id, cb);
         },
-        transder: function (targetMan, ids, cb) {
-            // '/web/transferOrderMan?scheduleId=&newOrderManEmail='
+        transder: function(id, targetMan, cb) {
+            Web.request('/web/transferOrderMan?scheduleId=' + id + '&newOrderManEmail=' + encodeURIComponent(targetMan), cb);
         },
-        list: function (cb) {
+        list: function(cb) {
             Core.getScheduleList(cb);
         }
     };
