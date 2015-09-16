@@ -10,14 +10,14 @@
  * @since 0.1.0
  */
 
-require(['./scripts/meetings'], function (Meetings) {
+require(['./scripts/meetings'], function(Meetings) {
 
-    var MeetingsChecker = function () {
+    var MeetingsChecker = function() {
         var started = false;
         var inError = false;
         var lastNotification;
 
-        this.start = function () {
+        this.start = function() {
             var self = this;
 
             if (started) {
@@ -29,14 +29,18 @@ require(['./scripts/meetings'], function (Meetings) {
                 periodInMinutes: 1
             });
 
-            chrome.alarms.onAlarm.addListener(function (alarm) {
-                Meetings.list(function (err, scheduleList) {
+            chrome.alarms.onAlarm.addListener(function(alarm) {
+                Meetings.list(function(err, scheduleList) {
 
                     if (err) {
                         // Do not report error duplicately.
                         if (!inError) {
                             self.reportError(err.message || '获取会议室信息失败');
                         }
+
+                        chrome.browserAction.setBadgeText({
+                            text: 'error'
+                        });
 
                         inError = true;
                         return;
@@ -46,11 +50,11 @@ require(['./scripts/meetings'], function (Meetings) {
 
                     var schedules = scheduleList.schedules;
 
-                    var onSchedulingSize = schedules.filter(function (item) {
+                    var onSchedulingSize = schedules.filter(function(item) {
                         return '未开始' === item['当前状态']
                     }).length;
 
-                    var onCheckingin = schedules.filter(function (item) {
+                    var onCheckingin = schedules.filter(function(item) {
                         return '可签入' === item['当前状态']
                     });
 
@@ -79,7 +83,7 @@ require(['./scripts/meetings'], function (Meetings) {
                             lang: 'zh-CN',
                             rate: 1.0,
                             enqueue: true
-                        }, function () {});
+                        }, function() {});
                     }
                 });
             });
@@ -88,7 +92,7 @@ require(['./scripts/meetings'], function (Meetings) {
         };
 
 
-        this.reportError = function (errmsg) {
+        this.reportError = function(errmsg) {
             //Prevent from mutiple notifications
             if (lastNotification) {
                 lastNotification.close();
