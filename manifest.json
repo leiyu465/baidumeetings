@@ -4,9 +4,8 @@
     "description": "Helper for Baidu Meetings",
     "version": "1.0.0",
     "permissions": [
-        "http://meeting.baidu.com/",
-        "http://uuap.baidu.com/",
-        "https://uuap.baidu.com/",
+        "http://*.baidu.com/",
+        "https://*.baidu.com/",
         "alarms",
         "tabs",
         "tts",
