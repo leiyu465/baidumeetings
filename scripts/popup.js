@@ -9,7 +9,7 @@
  * @version 0.1.0
  * @since 0.1.0
  */
-require(['./lib/jquery', './lib/underscore', './scripts/meetings'], function ($, _, Meetings) {
+require(['./lib/jquery', './lib/underscore', './scripts/meetings'], function($, _, Meetings) {
     $ = $ || window.$;
     _ = _ || window._;
 
@@ -17,24 +17,31 @@ require(['./lib/jquery', './lib/underscore', './scripts/meetings'], function ($,
         cache: false
     });
 
-    var Popup = function () {
-        this.start = function () {
+    var Popup = function() {
+        this.start = function() {
             return this.initDomEvents().refreshScheduleTable();
         };
     };
 
-    Popup.prototype.initDomEvents = function () {
-        $('.myschedule').click(function (e) {
+    Popup.prototype.initDomEvents = function() {
+        $('.myschedule').click(function(e) {
             e.preventDefault();
             chrome.tabs.create({
                 url: 'http://meeting.baidu.com/web/scheduleList'
             });
         });
+
+        $('.schedule').click(function(e) {
+            e.preventDefault();
+            chrome.tabs.create({
+                url: 'http://meeting.baidu.com/'
+            });
+        });
         return this;
     };
 
-    Popup.prototype.refreshScheduleTable = function () {
-        Meetings.list(function (err, scheduleList) {
+    Popup.prototype.refreshScheduleTable = function() {
+        Meetings.list(function(err, scheduleList) {
             if (scheduleList) {
                 this.drawScheduleTable(scheduleList);
             }
@@ -42,7 +49,7 @@ require(['./lib/jquery', './lib/underscore', './scripts/meetings'], function ($,
         return this;
     };
 
-    Popup.prototype.drawScheduleTable = function (scheduleList) {
+    Popup.prototype.drawScheduleTable = function(scheduleList) {
         var html = _.template($('#scheduleTpl').html())(scheduleList);
         $('.schedule-list').html(html);
     };
