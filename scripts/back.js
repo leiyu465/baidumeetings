@@ -14,8 +14,10 @@ require(['./scripts/meetings'], function(Meetings) {
 
     var MeetingsChecker = function() {
         var started = false;
-        var inError = false;
+        var errTimes = 0;
         var lastNotification;
+
+        var MAX_ERR_TIMES = 5;
 
         this.start = function() {
             var self = this;
@@ -25,7 +27,7 @@ require(['./scripts/meetings'], function(Meetings) {
             }
 
             chrome.alarms.create('checkMeetings', {
-                when: Date.now() + 1e3,
+                when: Date.now() + 2e3,
                 periodInMinutes: 1
             });
 
@@ -34,19 +36,19 @@ require(['./scripts/meetings'], function(Meetings) {
 
                     if (err) {
                         // Do not report error duplicately.
-                        if (!inError) {
+                        if (++errTimes > MAX_ERR_TIMES) {
                             self.reportError(err.message || '获取会议室信息失败');
+
+                            chrome.browserAction.setBadgeText({
+                                text: 'error'
+                            });
                         }
 
-                        chrome.browserAction.setBadgeText({
-                            text: 'error'
-                        });
-
-                        inError = true;
                         return;
                     }
 
-                    inError = false;
+
+                    errTimes = 0;
 
                     var schedules = scheduleList.schedules;
 
