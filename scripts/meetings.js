@@ -64,16 +64,16 @@ define(['../lib/jquery', './htmlparser'], function($, parser) {
             });
         },
         checkin: function(id, cb) {
-            Web.request('/web/checkIn?scheduleId=' + id, cb);
+            Web.request('http://meeting.baidu.com/web/checkIn?scheduleId=' + id, cb);
         },
         cancel: function(id, cb) {
-            Web.request('/web/cancel?scheduleId=' + id, cb);
+            Web.request('http://meeting.baidu.com/web/cancel?scheduleId=' + id, cb);
         },
         checkout: function(id, cb) {
-            Web.request('/web/checkOut?scheduleId=' + id, cb);
+            Web.request('http://meeting.baidu.com/web/checkOut?scheduleId=' + id, cb);
         },
         transder: function(id, targetMan, cb) {
-            Web.request('/web/transferOrderMan?scheduleId=' + id + '&newOrderManEmail=' + encodeURIComponent(targetMan), cb);
+            Web.request('http://meeting.baidu.com/web/transferOrderMan?scheduleId=' + id + '&newOrderManEmail=' + encodeURIComponent(targetMan), cb);
         },
         list: function(cb) {
             Core.getScheduleList(cb);
