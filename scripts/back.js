@@ -17,6 +17,7 @@ require(['./scripts/meetings'], function (Meetings) {
         var started = false;
         var errTimes = 0;
         var lastNotification;
+        var errNotification;
 
         var MAX_ERR_TIMES = 5;
 
@@ -48,8 +49,9 @@ require(['./scripts/meetings'], function (Meetings) {
                         }
 
                         return;
+                    } else {
+                        self.clearError();
                     }
-
 
                     errTimes = 0;
 
@@ -126,14 +128,21 @@ require(['./scripts/meetings'], function (Meetings) {
 
         this.reportError = function (errmsg) {
             //Prevent from mutiple notifications
-            if (lastNotification) {
-                lastNotification.close();
+            if (errNotification) {
+                errNotification.close();
             }
 
-            lastNotification = new Notification('出错', {
+            errNotification = new Notification('出错', {
                 icon: 'img/warn.png',
                 body: errmsg
             });
+        };
+
+        this.clearError = function () {
+            if (errNotification) {
+                errNotification.close();
+                errNotification = null;
+            }
         };
     };
 
