@@ -13,15 +13,19 @@ a {
     outline: 0;
 }
 .content {
-    width: 800px;
+    width: 600px;
     height: 400px;
 }
 table {
     border-collapse: collapse;
+    width: 100%;
 }
 td,th {
     padding: 10px;
     line-height: 1.3em;
-    text-align: left;
+    text-align: center;
     border: 1px solid #ddd;
+}
+td:last-of-type,th:last-of-type {
+    display: none;
 }
