@@ -34,12 +34,12 @@ require(['./scripts/meetings'], function (Meetings) {
             });
 
             var listMeetings = function () {
-                Meetings.list(function (err, scheduleList) {
+                Meetings.list(function (err, schedules) {
 
                     if (err) {
                         // Do not report error duplicately.
                         if (++errTimes > MAX_ERR_TIMES) {
-                            self.reportError(err.message || '获取会议室信息失败');
+                            self.showErrorNotification(err.message || '获取会议室信息失败');
 
                             chrome.browserAction.setBadgeText({
                                 text: 'error'
@@ -50,42 +50,41 @@ require(['./scripts/meetings'], function (Meetings) {
 
                         return;
                     } else {
-                        self.clearError();
+                        // If success,clear error notification immediately
+                        self.clearErrorNotification();
                     }
 
                     errTimes = 0;
 
-                    var schedules = scheduleList.schedules;
-
-                    var onSchedulingSize = schedules.filter(function (item) {
-                        return '未开始' === item['当前状态']
+                    var schedulesInPlanCount = schedules.filter(function (schedule) {
+                        return schedule.isInPlan();
                     }).length;
 
-                    var onCheckingin = schedules.filter(function (item) {
-                        return '可签入' === item['当前状态']
-                    });
+                    var checkinginSchedule = schedules.filter(function (schedule) {
+                        return schedule.canCheckin();
+                    })[0];
 
                     chrome.browserAction.setBadgeText({
-                        text: onSchedulingSize + '(' + onCheckingin.length +
-                            ')'
+                        text: schedulesInPlanCount + (checkinginSchedule?'(1)':'') // Only one
                     });
 
-                    if (onCheckingin.length) {
+                    if (checkinginSchedule) {
                         if (lastNotification) {
                             lastNotification.close();
                         }
 
-                        var meetingRoomName = onCheckingin[0]['会议室名称'];
-                        var tipStr = '您有需要签到的会议室：' + meetingRoomName;
+                        var meetingRoomName = checkinginSchedule.get('会议室名称');
 
-                        var meetingRoomInfo = '\n开始时间：' + onCheckingin[0]['开始时间'] +
-                            '\n位置：' + onCheckingin[0]['地域'] + '-' +
-                            onCheckingin[0]['楼层'] + '-' + onCheckingin[0]['会议室描述'];
+                        var ttsStr = '您有需要签到的会议室：' + meetingRoomName;
 
-                        var id = (onCheckingin[0]['操作'].match(/\b\d+\b/) || [])[0];
+                        var meetingRoomInfo = ['\n开始时间：', checkinginSchedule.get('开始时间'),
+                            '\n位置：', checkinginSchedule.get('地域'), '-',
+                            checkinginSchedule.get('楼层'), '-', checkinginSchedule.get(
+                                '会议室描述')
+                        ].join('');
 
-                        if (id) {
-                            Meetings.checkin(id, function (err, data) {
+                        if (true /*auto checking*/ ) {
+                            checkinginSchedule.checkin(function (err, data) {
                                 if (err) {
                                     lastNotification = new Notification('会议室签到', {
                                         icon: 'img/ask.png',
@@ -107,10 +106,10 @@ require(['./scripts/meetings'], function (Meetings) {
                         } else {
                             lastNotification = new Notification('会议室签到', {
                                 icon: 'img/ask.png',
-                                body: tipStr + meetingRoomInfo
+                                body: ttsStr + meetingRoomInfo
                             });
                             // Speak out
-                            chrome.tts.speak(tipStr, {
+                            chrome.tts.speak(ttsStr, {
                                 lang: 'zh-CN',
                                 rate: 1.0,
                                 enqueue: true
@@ -126,7 +125,7 @@ require(['./scripts/meetings'], function (Meetings) {
         };
 
 
-        this.reportError = function (errmsg) {
+        this.showErrorNotification = function (errmsg) {
             //Prevent from mutiple notifications
             if (errNotification) {
                 errNotification.close();
@@ -138,7 +137,7 @@ require(['./scripts/meetings'], function (Meetings) {
             });
         };
 
-        this.clearError = function () {
+        this.clearErrorNotification = function () {
             if (errNotification) {
                 errNotification.close();
                 errNotification = null;

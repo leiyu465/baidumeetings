@@ -44,10 +44,7 @@ define([], function () {
             }
 
             iframe.parentNode.removeChild(iframe);
-            return {
-                headers: headers,
-                schedules: scheduleItems
-            };
+            return scheduleItems;
         } catch (e) {
             return null;
         }
