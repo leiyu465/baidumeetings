@@ -9,8 +9,7 @@
  * @version 0.1.0
  * @since 0.1.0
  */
-require(['./lib/jquery', './lib/underscore', './scripts/meetings'], function($, _, Meetings) {
-    $ = $ || window.$;
+require(['./lib/underscore', './scripts/meetings'], function(_, Meetings) {
     _ = _ || window._;
 
     $.ajaxSetup({
@@ -24,19 +23,6 @@ require(['./lib/jquery', './lib/underscore', './scripts/meetings'], function($, 
     };
 
     Popup.prototype.initDomEvents = function() {
-        $('.myschedule').click(function(e) {
-            e.preventDefault();
-            chrome.tabs.create({
-                url: 'http://meeting.baidu.com/web/scheduleList'
-            });
-        });
-
-        $('.schedule').click(function(e) {
-            e.preventDefault();
-            chrome.tabs.create({
-                url: 'http://meeting.baidu.com/'
-            });
-        });
         return this;
     };
 

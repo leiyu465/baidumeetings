@@ -9,13 +9,14 @@
   * @version 0.1.0
   * @since 0.1.0
   */
-a {
-    outline: 0;
-}
-.content {
+html,body{
     width: 600px;
     height: 400px;
 }
+a {
+    outline: none !important;
+}
+
 table {
     border-collapse: collapse;
     width: 100%;
@@ -26,6 +27,6 @@ td,th {
     text-align: center;
     border: 1px solid #ddd;
 }
-td:last-of-type,th:last-of-type {
+/*td:last-of-type,th:last-of-type {
     display: none;
-}
+}*/
