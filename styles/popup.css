@@ -9,7 +9,7 @@
   * @version 0.1.0
   * @since 0.1.0
   */
-html,body{
+body{
     width: 700px;
 }
 a {
@@ -26,6 +26,7 @@ td,th {
     text-align: center;
     border: 1px solid #ddd;
 }
-/*td:last-of-type,th:last-of-type {
-    display: none;
-}*/
+.schedule-list {
+    height: 450px;
+    overflow-y: scroll; 
+}
