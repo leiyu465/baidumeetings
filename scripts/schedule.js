@@ -69,7 +69,7 @@ define([], function () {
             return '已签出' === this.getStatus();
         },
         hasFinished: function () {
-            return !!~this.getStatus().indexOf('已结束');
+            return !!~this.getStatus().indexOf('已完成');
         },
         hasOperations: function () {
             return !(this.hasFinished() || this.hasCheckedOut());
