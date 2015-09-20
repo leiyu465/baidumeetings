@@ -33,14 +33,14 @@ require(['./lib/underscore', './scripts/meetings'], function (_, Meetings) {
         this.refreshScheduleTable = function () {
             Meetings.list(function (err, schedules) {
                 // 先缓存再渲染
-                if (schedules) {
-                    scheduleList = schedules
-                }
                 var html = tplFunc({
-                    schedules: scheduleList || []
+                    schedules: (scheduleList = schedules),
+                    errmsg: err && err.message
                 });
+
                 $('.schedule-list').html(html);
             });
+
             return this;
         };
 
@@ -234,6 +234,11 @@ require(['./lib/underscore', './scripts/meetings'], function (_, Meetings) {
                 });
 
             });
+
+        $('#refresh').click(function () {
+            self.refreshScheduleTable();
+        });
+
         return this;
     };
 

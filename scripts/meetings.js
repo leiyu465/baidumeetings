@@ -21,7 +21,11 @@ define(['./htmlparser', './schedule'], function (parser, Schedule) {
          * @return {this}
          */
         getScheduleList: function (cb) {
-            $.post('http://meeting.baidu.com/web/scheduleList').done(function (content) {
+            $.ajax({
+                url: 'http://meeting.baidu.com/web/scheduleList',
+                timeout: 2e3,
+                cache: false
+            }).done(function (content) {
                 if (content) {
                     var parsedSchedules = parser.parse(content);
                     if (parsedSchedules) {

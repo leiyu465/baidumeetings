@@ -18,7 +18,11 @@ define([], function () {
      */
     var Web = {
         request: function (url, cb) {
-            $.getJSON(url).done(function (data) {
+            $.ajax({
+                url: url,
+                timeout: 2e3,
+                dataType: 'json'
+            }).done(function (data) {
                 if (200 === data.code && 1 === data.status) {
                     cb(null, data);
                 } else {
