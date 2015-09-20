@@ -10,117 +10,90 @@
         <link rel="stylesheet" href="styles/popup.css"/>
     </head>
     <body class="bg-faded">
-        <!-- <nav class="navbar navbar-dark bg-primary">
-            <div class="container">
-                <a class="navbar-brand" href="http://meeting.baidu.com/" target="_blank">百度会议室</a>
-                <ul class="nav navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">我的会议室</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://meeting.baidu.com/web/scheduleList" target="_blank">预订会议室</a>
-                    </li>
-                </ul>
-            </nav> -->
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="#">百度会议室</a>
-                    </div>
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav">
-                            <li class="active"><a href="http://meeting.baidu.com/" target="_blank">预订会议室</a></li>
-                            
-                        </ul>
-                        
-                        
-                        </div><!-- /.navbar-collapse -->
-                        </div><!-- /.container-fluid -->
-                    </nav>
-                    <div class="schedule-list"></div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">百度会议室</a>
                 </div>
-                <script type="text/tpl" id="scheduleTpl">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>序号</th>
-                            <th>时间</th>
-                            <th>位置</th>
-                            <th>状态</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for(var i = 0;i < schedules.length;++i){ %>
-                        <tr>
-                            <td><%= 1 + i %></td>
-                            <td><%= schedules[i].getDateTimeStr() %></td>
-                            <td><%= schedules[i].getLocationStr() %></td>
-                            <td><%= schedules[i].getStatus() %></td>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">操作 <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                        
-                                        <% if(schedules[i].canCheckin()){ %>
-                                        <li>
-                                            <a href="#" data-sid="<%= schedules[i].getId() %>" class="bdm-checkin">签入</a>
-                                        </li>
-                                        <% } %>
-                                        <% if(schedules[i].canTransfer()){ %>
-                                        <li>
-                                            <a href="#" data-sid="<%= schedules[i].getId() %>" class="bdm-transfer">转出</a>
-                                        </li>
-                                        <% } %>
-                                        <% if(schedules[i].canCancel()){ %>
-                                        <li>
-                                            <a href="#" data-sid="<%= schedules[i].getId() %>" class="bdm-cancel">取消</a>
-                                        </li>
-                                        <% } %>
-                                        <% if(schedules[i].canCheckout()){ %>
-                                        <li>
-                                            <a href="#" data-sid="<%= schedules[i].getId() %>" class="bdm-checkout">签出</a>
-                                        </li>
-                                        <% } %>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        <% } %>
-                    </tbody>
-                </table>
-                </script>
-                <div id="confirm" class="modal fade">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                                <h4 class="modal-title">确认</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p></p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                                <button type="button" class="btn btn-primary">确定</button>
-                            </div>
-                            </div><!-- /.modal-content -->
-                            </div><!-- /.modal-dialog -->
-                            </div><!-- /.modal -->
-                        </body>
-                        <script src="lib/jquery.js"></script>
-                        <script src="lib/bootstrap.min.js"></script>
-                        <script src="lib/bootstrap-dialog.min.js"></script>
-                        <script src="lib/require.js"></script>
-                        <script src="scripts/popup.js"></script>
-                    </html>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="http://meeting.baidu.com/" target="_blank">预订会议室</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="schedule-list"></div>
+    </div>
+    <script type="text/tpl" id="scheduleTpl">
+    <table>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>时间</th>
+                <th>位置</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if(schedules&&schedules.length){ %>
+            <% for(var i = 0;i < schedules.length;++i){ %>
+            <tr>
+                <td><%= 1 + i %></td>
+                <td><%= schedules[i].getDateTimeStr() %></td>
+                <td><%= schedules[i].getLocationStr() %></td>
+                <td><%= schedules[i].getStatus() %></td>
+                <td>
+                    <% if(schedules[i].hasOperations()){ %>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">操作 <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            
+                            <% if(schedules[i].canCheckin()){ %>
+                            <li>
+                                <a href="#" data-sid="<%= schedules[i].getId() %>" class="bdm-checkin">签入</a>
+                            </li>
+                            <% } %>
+                            <% if(schedules[i].canTransfer()){ %>
+                            <li>
+                                <a href="#" data-sid="<%= schedules[i].getId() %>" class="bdm-transfer">转让</a>
+                            </li>
+                            <% } %>
+                            <% if(schedules[i].canCancel()){ %>
+                            <li>
+                                <a href="#" data-sid="<%= schedules[i].getId() %>" class="bdm-cancel">取消</a>
+                            </li>
+                            <% } %>
+                            <% if(schedules[i].canCheckout()){ %>
+                            <li>
+                                <a href="#" data-sid="<%= schedules[i].getId() %>" class="bdm-checkout">签出</a>
+                            </li>
+                            <% } %>
+                        </ul>
+                    </div>
+                    <% } %>
+                </td>
+            </tr>
+            <% } /*for(...*/ %>
+            <% } /* if(schedules&&schedules.length... */ else{ %>
+                <tr>
+                    <td colspan="5">没有任何会议室预订信息</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+    </script>
+</body>
+<script src="lib/jquery.js"></script>
+<script src="lib/bootstrap.min.js"></script>
+<script src="lib/bootstrap-dialog.min.js"></script>
+<script src="lib/require.js"></script>
+<script src="scripts/popup.js"></script>
+</html>
