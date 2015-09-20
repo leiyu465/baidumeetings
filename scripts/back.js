@@ -39,7 +39,7 @@ require(['./scripts/meetings'], function (Meetings) {
                     if (err) {
                         // Do not report error duplicately.
                         if (++errTimes > MAX_ERR_TIMES) {
-                            self.showErrorNotification(err.message || '获取会议室信息失败');
+                            self.showErrorNotification('获取会议室信息失败：' + err.message);
 
                             chrome.browserAction.setBadgeText({
                                 text: 'error'
@@ -65,7 +65,8 @@ require(['./scripts/meetings'], function (Meetings) {
                     })[0];
 
                     chrome.browserAction.setBadgeText({
-                        text: schedulesInPlanCount + (checkinginSchedule?'(1)':'') // Only one
+                        text: schedulesInPlanCount + (checkinginSchedule ? '(1)' :
+                                '') // Only one
                     });
 
                     if (checkinginSchedule) {
