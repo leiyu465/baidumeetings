@@ -236,6 +236,7 @@ require(['./lib/underscore', './scripts/meetings'], function (_, Meetings) {
             });
 
         $('#refresh').click(function () {
+            $('.schedule-list').empty();
             self.refreshScheduleTable();
         });
 
