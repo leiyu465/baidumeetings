@@ -99,7 +99,7 @@ define([], function () {
         checkout: function (cb) {
             Web.request('http://meeting.baidu.com/web/checkOut?scheduleId=' + this.getId(), cb);
         },
-        transder: function (targetMan, cb) {
+        transfer: function (targetMan, cb) {
             Web.request('http://meeting.baidu.com/web/transferOrderMan?scheduleId=' + this.getId() +
                 '&newOrderManEmail=' + encodeURIComponent(targetMan), cb);
         }

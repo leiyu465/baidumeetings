@@ -44,7 +44,10 @@ define([], function () {
             }
 
             iframe.parentNode.removeChild(iframe);
-            return scheduleItems;
+            return {
+                schedules: scheduleItems,
+                pageCount: (doc.querySelectorAll('.pagination .number') || [1]).length
+            };
         } catch (e) {
             return null;
         }
