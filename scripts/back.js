@@ -38,14 +38,14 @@ require(['./scripts/meetings'], function (Meetings) {
 
                     if (err) {
                         // Do not report error duplicately.
-                        if (++errTimes > MAX_ERR_TIMES) {
+                        if (++errTimes === MAX_ERR_TIMES) {
                             self.showErrorNotification('获取会议室信息失败：' + err.message);
 
                             chrome.browserAction.setBadgeText({
                                 text: 'error'
                             });
 
-                            errTimes = 0;
+                            // errTimes = 0;
                         }
 
                         return;
