@@ -37,7 +37,7 @@ define([], function () {
                 var scheduleItem = {};
                 var tds = trs[i].children;
                 for (j = 0; j < tds.length; ++j) {
-                    scheduleItem[headers[j]] = tds[j].innerHTML.trim();
+                    scheduleItem[headers[j]] = tds[j].innerHTML.trim().split(':')[0];
                 }
 
                 scheduleItems.push(scheduleItem);

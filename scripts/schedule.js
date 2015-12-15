@@ -76,7 +76,10 @@ define([], function () {
             return !!~this.getStatus().indexOf('已完成');
         },
         hasOperations: function () {
-            return !(this.hasFinished() || this.hasCheckedOut());
+            return !(this.hasFinished() || this.hasCheckedOut() || this.hasReleased());
+        },
+        hasReleased: function () {
+            return !!~this.getStatus().indexOf('已释放');
         },
         canCheckin: function () {
             return !!~['可签入'].indexOf(this.getStatus());
