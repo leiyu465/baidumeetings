@@ -11,6 +11,13 @@
  */
 define([], function () {
 
+    function short(string, maxlen) {
+        if (string.length > maxlen) {
+            return string.substr(0, maxlen - 3) + '...';
+        }
+        return string;
+    }
+
     function parse(html) {
         var i, j;
         var doc;
@@ -37,7 +44,7 @@ define([], function () {
                 var scheduleItem = {};
                 var tds = trs[i].children;
                 for (j = 0; j < tds.length; ++j) {
-                    scheduleItem[headers[j]] = tds[j].innerHTML.trim().split(':')[0];
+                    scheduleItem[headers[j]] = short(tds[j].innerHTML.trim(), 10);
                 }
 
                 scheduleItems.push(scheduleItem);
