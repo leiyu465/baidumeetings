@@ -48,7 +48,7 @@ define([], function () {
         };
 
         this.getId = function () {
-            return id || (this.get('操作').match(/\b\d+\b/) || [])[0];
+            return id || (id = (this.get('操作').match(/\b\d+\b/) || [])[0]);
         };
     };
 
