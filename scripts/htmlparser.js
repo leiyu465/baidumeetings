@@ -44,7 +44,7 @@ define([], function () {
                 var scheduleItem = {};
                 var tds = trs[i].children;
                 for (j = 0; j < tds.length; ++j) {
-                    scheduleItem[headers[j]] = short(tds[j].innerHTML.trim(), 10);
+                    scheduleItem[headers[j]] = '当前状态'===headers[j] ? short(tds[j].innerHTML.trim(), 10) : tds[j].innerHTML.trim();
                 }
 
                 scheduleItems.push(scheduleItem);
