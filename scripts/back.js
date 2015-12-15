@@ -30,7 +30,7 @@ require(['./scripts/meetings'], function (Meetings) {
 
             chrome.alarms.create('checkMeetings', {
                 when: Date.now() + 2e3,
-                periodInMinutes: 1
+                periodInMinutes: 5
             });
 
             var listMeetings = function () {

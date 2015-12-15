@@ -29,7 +29,7 @@ define(['./htmlparser', './schedule'], function (parser, Schedule) {
                 data: {
                     pageNo: pageNo || 1
                 },
-                timeout: 2e3,
+                timeout: 1e4,
                 type: 'post'
             }).done(function (content) {
                 if (content) {
